@@ -336,12 +336,12 @@ document.addEventListener('pointerlockchange',()=>{locked=document.pointerLockEl
 dom.addEventListener('pointerdown',e=>{if(!locked){try{const p=dom.requestPointerLock();p&&p.catch&&p.catch(()=>{})}catch(_){}}
  drag={x:e.clientX,y:e.clientY,m:0};if(locked)act()});
 dom.addEventListener('pointermove',e=>{let dx=0,dy=0;
- if(locked){dx=e.movementX*2.4;dy=e.movementY*2.4}else if(drag){dx=e.clientX-drag.x;dy=e.clientY-drag.y;drag.x=e.clientX;drag.y=e.clientY;drag.m+=Math.abs(dx)+Math.abs(dy);dx*=3.2;dy*=3.2}
+ if(locked){dx=e.movementX*1.5;dy=e.movementY*1.5}else if(drag){dx=e.clientX-drag.x;dy=e.clientY-drag.y;drag.x=e.clientX;drag.y=e.clientY;drag.m+=Math.abs(dx)+Math.abs(dy);dx*=2;dy*=2}
  yawT-=dx*.0025;pitT=Math.max(-1.45,Math.min(1.45,pitT-dy*.0025))});
 dom.addEventListener('pointerup',()=>{if(drag&&!locked&&drag.m<6)act();drag=null});
 $('again').onclick=()=>{$('over').style.display='none';gen()};
 function die(){dead=true;if(document.exitPointerLock)document.exitPointerLock();if(day>best){best=day;try{localStorage.setItem('pc_best',best)}catch(e){}}
- $('ov').innerHTML='Дней в аду: '+day+'<br>Рекорд: '+best;$('over').style.display='flex'}
+ $('ov').innerHTML='Ты продержался дней: '+day+'<br>Рекорд: '+best;$('over').style.display='flex'}
 /* ---------- обновление ---------- */
 function update(dt){
  time+=dt;pl.cd-=dt;pl.sw-=dt;pl.hurt-=dt;mt-=dt;if(mt<0)$('msg').style.opacity=0;
