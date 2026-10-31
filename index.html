@@ -35,6 +35,8 @@ h2{font-family:Impact,"Arial Narrow Bold",sans-serif;font-weight:400;font-size:2
 .card ul{margin:0 0 18px;padding-left:0;list-style:none;color:#c9ccc2}
 .card li{margin:5px 0;padding-left:22px;position:relative}
 .card li::before{content:"";position:absolute;left:2px;top:.55em;width:9px;height:9px;background:var(--green2);transform:rotate(45deg)}
+.ctl{margin-top:4px;padding-top:14px;border-top:1px dashed var(--line)}
+.ctl h4{margin:0 0 8px;font-family:Impact,"Arial Narrow Bold",sans-serif;font-weight:400;font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:#fff}
 .how{font-size:15px;color:#c9ccc2}
 .how b{background:#0a0b0a;padding:1px 8px;border:1px solid var(--brown2);color:#fff;font-weight:700}
 .how div{margin:7px 0}
@@ -47,20 +49,12 @@ footer{color:var(--dim);font-size:13px;text-align:center;padding-top:26px;text-t
  <header>
   <h1>3d<span>survival</span>osv</h1>
   <p class="tag">3D-игра на выживание от первого лица. Постапокалиптический город, лес, ночь и зомби. Играй прямо в браузере.</p>
-  <a class="btn" id="playLatest" href="#">▶ Играть</a>
-  <p class="hint" id="latestInfo"></p>
  </header>
 
  <h2>Версии</h2>
  <div id="list"></div>
 
- <h2>Управление</h2>
- <div class="card how">
-  <div><b>Клик по экрану</b> захват мыши (Esc — выйти) · <b>WASD</b> движение · <b>Shift</b> бег · <b>Пробел</b> прыжок</div>
-  <div><b>Клик / F / E</b> бить, открывать двери, обыскивать, рубить · <b>L</b> фонарь</div>
-  <div><b>1</b> костёр · <b>2</b> баррикада · <b>3</b> съесть/выпить · <b>4</b> повязка · <b>5</b> копьё · <b>6</b> батарейка · <b>7</b> аптечка</div>
- </div>
- <footer>Игре нужен интернет и современный браузер на компьютере. Каждая версия открывается в новой вкладке.</footer>
+ <footer>Игре нужен интернет. Играть можно в браузере на компьютере. Каждая версия открывается в новой вкладке.</footer>
 </div>
 <script src="versions.js"></script>
 <script>
@@ -68,10 +62,7 @@ footer{color:var(--dim);font-size:13px;text-align:center;padding-top:26px;text-t
  const V=(window.VERSIONS||[]),list=document.getElementById('list');
  const url=v=>'games/'+v.path+'/index.html';
  const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
- if(!V.length){list.appendChild(el('div','card','Версий пока нет.'));document.getElementById('playLatest').style.display='none';return}
- const play=document.getElementById('playLatest');play.href=url(V[0]);play.target='_blank';play.rel='noopener';
- play.textContent='▶ Играть в v'+V[0].version;
- document.getElementById('latestInfo').textContent='Последняя версия: v'+V[0].version+' · '+V[0].date;
+ if(!V.length){list.appendChild(el('div','card','Версий пока нет.'));return}
  V.forEach((v,i)=>{
   const c=el('article','card'),top=el('div','top');
   top.append(el('span','ver','v'+v.version));
@@ -80,6 +71,10 @@ footer{color:var(--dim);font-size:13px;text-align:center;padding-top:26px;text-t
   const b=el('a','btn small','▶ Играть в v'+v.version);b.href=url(v);b.target='_blank';b.rel='noopener';top.append(b);
   c.append(top,el('h3','',v.title));
   const ul=el('ul');(v.changes||[]).forEach(t=>ul.append(el('li','',t)));c.append(ul);
+  if(v.controls&&v.controls.length){
+   const box=el('div','ctl how');box.append(el('h4','','Управление'));
+   v.controls.forEach(line=>{const d=el('div');line.forEach((p,k)=>{if(k)d.append(document.createTextNode(' · '));d.append(el('b','',p[0]),document.createTextNode(' '+p[1]))});box.append(d)});
+   c.append(box)}
   list.append(c)});
 })();
 </script>
